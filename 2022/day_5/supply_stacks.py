@@ -5,7 +5,7 @@ import re
 from more_itertools import locate
 
 datafiles = ["input.txt", "sample.txt", "sample_2.txt"]
-datafile = datafiles[2]
+datafile = datafiles[0]
 
 with open(datafile, "r") as rf:
     lines = rf.readlines()
@@ -38,9 +38,9 @@ def format_instructions(instructions):
         result = re.search(regex, instruction)
 
         formatted_instruction = {
-            "move": result.group(1),
-            "from": result.group(2),
-            "to": result.group(3),
+            "move": int(result.group(1)),
+            "from": int(result.group(2)),
+            "to": int(result.group(3)),
         }
         formatted_instructions.append(formatted_instruction)
     return formatted_instructions
@@ -77,7 +77,27 @@ def place_crates_in_stacks(supply_stacks):
     return supply_stacks
 
 
-def move_crate(supply_stacks, formatted_instructions):
+def move_crates_between_2_stacks(supply_stacks, instruction):
+
+    move = instruction["move"]
+    _from = instruction["from"]
+    to = instruction["to"]
+
+    # print(instruction)
+    # print(move, _from, to)
+
+    for _ in range(move):
+        if not supply_stacks[_from - 1]:
+            print(move, _from, to)
+            print(supply_stacks[_from - 1])
+            break
+        crate_moved = supply_stacks[_from - 1].pop()
+        # print(crate_moved)
+        supply_stacks[to - 1].append(crate_moved)
+        # print(supply_stacks[_from - 1], supply_stacks[to - 1])
+
+
+def move_crates(supply_stacks, formatted_instructions):
     for instruction in formatted_instructions:
         for move, _from, to in zip(
             instruction["move"],
@@ -87,11 +107,16 @@ def move_crate(supply_stacks, formatted_instructions):
             move = int(move)
             _from = int(_from)
             to = int(to)
-            print(move, _from, to)
+            # print(move, _from, to)
             for _ in range(move):
+                if not supply_stacks[_from - 1]:
+                    print(move, _from, to)
+                    print(supply_stacks[_from - 1])
+                    break
                 crate_moved = supply_stacks[_from - 1].pop()
-                print(crate_moved)
+                # print(crate_moved)
                 supply_stacks[to - 1].append(crate_moved)
+                # print(supply_stacks[_from - 1], supply_stacks[to - 1])
 
 
 def get_top_of_each_stack(supply_stacks):
@@ -119,9 +144,16 @@ supply_stacks = place_crates_in_stacks(empty_stacks)
 #     print(crate)
 # for crates_and_ids in all_crates_and_ids:
 #     print(crates_and_ids)
+
 # for supply_stack in supply_stacks:
 #     print(supply_stack)
 
-move_crate(supply_stacks, formatted_instructions)
+# instruction = formatted_instructions[0]
+for instruction in formatted_instructions:
+    # part 1
+    move_crates_between_2_stacks(supply_stacks, instruction)
+    # part 2
+
+# move_crates(supply_stacks, formatted_instructions)
 top_crates = get_top_of_each_stack(supply_stacks)
 print(top_crates)
