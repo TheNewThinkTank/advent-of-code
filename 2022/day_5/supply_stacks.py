@@ -78,45 +78,37 @@ def place_crates_in_stacks(supply_stacks):
 
 
 def move_crates_between_2_stacks(supply_stacks, instruction):
-
     move = instruction["move"]
     _from = instruction["from"]
     to = instruction["to"]
-
-    # print(instruction)
-    # print(move, _from, to)
-
     for _ in range(move):
         if not supply_stacks[_from - 1]:
             print(move, _from, to)
             print(supply_stacks[_from - 1])
             break
         crate_moved = supply_stacks[_from - 1].pop()
-        # print(crate_moved)
         supply_stacks[to - 1].append(crate_moved)
-        # print(supply_stacks[_from - 1], supply_stacks[to - 1])
 
 
-def move_crates(supply_stacks, formatted_instructions):
-    for instruction in formatted_instructions:
-        for move, _from, to in zip(
-            instruction["move"],
-            instruction["from"],
-            instruction["to"],
-        ):
-            move = int(move)
-            _from = int(_from)
-            to = int(to)
-            # print(move, _from, to)
-            for _ in range(move):
-                if not supply_stacks[_from - 1]:
-                    print(move, _from, to)
-                    print(supply_stacks[_from - 1])
-                    break
-                crate_moved = supply_stacks[_from - 1].pop()
-                # print(crate_moved)
-                supply_stacks[to - 1].append(crate_moved)
-                # print(supply_stacks[_from - 1], supply_stacks[to - 1])
+def move_crates_between_2_stacks_part2(supply_stacks, instruction):
+
+    move = instruction["move"]
+    _from = instruction["from"]
+    to = instruction["to"]
+
+    popped_crates = []
+
+    for _ in range(move):
+
+        if not supply_stacks[_from - 1]:
+            print(move, _from, to)
+            print(supply_stacks[_from - 1])
+            break
+
+        popped_crates.append(supply_stacks[_from - 1].pop())
+
+    for popped_crate in popped_crates[::-1]:
+        supply_stacks[to - 1].append(popped_crate)
 
 
 def get_top_of_each_stack(supply_stacks):
@@ -148,12 +140,16 @@ supply_stacks = place_crates_in_stacks(empty_stacks)
 # for supply_stack in supply_stacks:
 #     print(supply_stack)
 
-# instruction = formatted_instructions[0]
+# part 2
+# for instruction in formatted_instructions[:2]:
+#     move_crates_between_2_stacks_part2(supply_stacks, instruction)
+
 for instruction in formatted_instructions:
     # part 1
-    move_crates_between_2_stacks(supply_stacks, instruction)
-    # part 2
+    # move_crates_between_2_stacks(supply_stacks, instruction)
 
-# move_crates(supply_stacks, formatted_instructions)
+    # part 2
+    move_crates_between_2_stacks_part2(supply_stacks, instruction)
+
 top_crates = get_top_of_each_stack(supply_stacks)
 print(top_crates)
