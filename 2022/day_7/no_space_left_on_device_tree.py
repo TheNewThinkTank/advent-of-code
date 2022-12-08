@@ -33,12 +33,8 @@ def get_tree():
 
         if is_changing_dir:
             current_dir = is_changing_dir.group(1)
-            if current_dir == "..":
-                continue
-
-            # while current_dir in dir_names:
-            #     current_dir += "_$"
-            # dir_names.add(current_dir)
+        if current_dir == "..":
+            continue
 
         if dir_content:
             dir_name = dir_content.group(1)
@@ -57,11 +53,9 @@ def get_tree():
             orig_file_size = tree.get_node(current_dir).data.size
             extra_file_size = int(file_content.group(1))
             file_size = orig_file_size + extra_file_size
-            # if file_size == 0:
-            #     print("filesize error:\n")
-            #     print(tree.get_node(current_dir))
-            #     break
-            tree.update_node(nid=current_dir, data=File(file_size))
+            # node = tree.get_node(current_dir)
+            # print(node.tag, node.data.size, file_size)
+            tree.update_node(current_dir, data=File(file_size))
 
     return tree
 
@@ -91,5 +85,5 @@ def sum_small_nodes():
     return sum(small_nodes)
 
 
-small_nodes_sum = sum_small_nodes()
-print(small_nodes_sum)
+# small_nodes_sum = sum_small_nodes()
+# print(small_nodes_sum)
