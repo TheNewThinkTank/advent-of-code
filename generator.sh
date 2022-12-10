@@ -1,6 +1,6 @@
 #!/usr/local/bin/bash
 
-YEAR=2021
+YEAR=2022
 
 mkdir -p ${YEAR}/day_{1..25}
 
