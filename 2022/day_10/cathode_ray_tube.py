@@ -14,12 +14,27 @@ def get_signal_strength(x, cycle_no):
 
 for idx, line in enumerate(lines):
     cycle_no = idx + 1
+
+    print(f"start of cycle: {cycle_no}")
+    print(f"{x = }, {line = }\n")
+
+    if instruction_queue:
+        x += instruction_queue.pop(0)
+
     if line == "noop":
-        # cycle_no += 1
         continue
+
+    print(f"end of cycle: {cycle_no}")
+    print(f"{x = }")
+
     _, v = line.split()
-    v = int(v)
-    print(v)
-    instruction_queue.append(v)
+    instruction_queue.append(int(v))
+
+
+while instruction_queue:
+    cycle_no += 1
+    print(f"start of cycle: {cycle_no}")
+    print(f"{x = }")
     x += instruction_queue.pop(0)
+    print(f"end of cycle: {cycle_no}")
     print(f"{x = }")
