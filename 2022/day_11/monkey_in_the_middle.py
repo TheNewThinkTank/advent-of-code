@@ -1,5 +1,6 @@
 from dataclasses import dataclass
 from itertools import filterfalse, islice
+import math
 from pprint import pprint as pp
 
 
@@ -12,20 +13,22 @@ class Monkey:
     next_monkey_on_true: int
     next_monkey_on_false: int
 
-    def update_worry_level(self):
-        old = self.starting_items[0]
+    def update_worry_level(self, old):
         res = eval(self.operation)
-        self.starting_items[0] = res
+        res = math.floor(res / 3)
+        # self.starting_items[0] = res
         return res
 
-    def test(self) -> bool:
-        return self.starting_items[0] % self.test_divisible_by == 0
+    def get_next_monkey(self, new) -> int:
+        if new % self.test_divisible_by == 0:
+            return self.next_monkey_on_true - 1
+        return self.next_monkey_on_false - 1
 
-    def remove_item(self):
-        del self.starting_items[0]
+    # def remove_item(self):
+    #     del self.starting_items[0]
 
-    def receive_item(self, item):
-        self.starting_items.append(item)
+    # def receive_item(self, item):
+    #     self.starting_items.append(item)
 
 
 def get_raw_monkeys():
@@ -66,15 +69,27 @@ for monkey in raw_monkeys:
 monkeys = [Monkey(**clean_monkey) for clean_monkey in clean_monkeys]
 # pp(monkeys)
 
-first_monkey = monkeys[0]
+# first_monkey = monkeys[0]
+# third_monkey = monkeys[2]
+# print(first_monkey)
+# print(third_monkey)
 
-for starting_item in first_monkey.starting_items:
-    print(starting_item)
+# assert len(first_monkey.starting_items) > 0
 
-    updated_worry_level = first_monkey.update_worry_level()
+for monkey in monkeys:
+    if len(monkey.starting_items) == 0:
+        continue
+    for starting_item in monkey.starting_items:
+        # print(starting_item)
+        updated_worry_level = monkey.update_worry_level(starting_item)
+        # print(starting_item, updated_worry_level)
+        next_monkey = monkey.get_next_monkey(updated_worry_level)
+        # print(next_monkey)
 
-    print(starting_item, updated_worry_level)
+        for ape in monkeys:
+            if ape.id == next_monkey:
+                ape.starting_items.append(updated_worry_level)
 
-    # first_monkey.test()
+    monkey.starting_items = []
 
-    # next monkey receives
+pp(monkeys)
