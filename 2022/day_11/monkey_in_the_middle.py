@@ -1,7 +1,7 @@
 from dataclasses import dataclass
 from itertools import filterfalse, islice
-import math
-from pprint import pprint as pp
+
+# from pprint import pprint as pp
 
 
 @dataclass
@@ -15,25 +15,20 @@ class Monkey:
 
     def update_worry_level(self, old):
         res = eval(self.operation)
-        res = math.floor(res / 3)
-        # self.starting_items[0] = res
+        # part 1
+        # res = res // 3
         return res
 
     def get_next_monkey(self, new) -> int:
         if new % self.test_divisible_by == 0:
-            return self.next_monkey_on_true - 1
-        return self.next_monkey_on_false - 1
-
-    # def remove_item(self):
-    #     del self.starting_items[0]
-
-    # def receive_item(self, item):
-    #     self.starting_items.append(item)
+            return self.next_monkey_on_true
+        return self.next_monkey_on_false
 
 
 def get_raw_monkeys():
     raw_monkeys = []
-    with open("sample.txt", "r") as rf:
+    data_file = "input.txt"  # "sample.txt"
+    with open(data_file, "r") as rf:
         while True:
             filt_rf = filterfalse(lambda line: line.startswith("\n"), rf)
             monkey = list(islice(filt_rf, 6))
@@ -65,31 +60,33 @@ for monkey in raw_monkeys:
     }
     clean_monkeys.append(clean_monkey)
 
-# pp(clean_monkeys)
 monkeys = [Monkey(**clean_monkey) for clean_monkey in clean_monkeys]
+
+inspections = {"round": 0, "monkeys": {idx: 0 for idx, _ in enumerate(monkeys)}}
+rounds = 10_000  # 20
+
+for i in range(rounds):
+    inspections["round"] += 1
+    print("Round: ", i)
+    for monkey in monkeys:
+        if len(monkey.starting_items) == 0:
+            continue
+        inspections["monkeys"][monkey.id] += len(monkey.starting_items)
+        for starting_item in monkey.starting_items:
+            updated_worry_level = monkey.update_worry_level(starting_item)
+            next_monkey = monkey.get_next_monkey(updated_worry_level)
+            for ape in monkeys:
+                if ape.id == next_monkey:
+                    ape.starting_items.append(updated_worry_level)
+        monkey.starting_items = []
+
 # pp(monkeys)
+monkey_activity = sorted(
+    inspections["monkeys"].items(), key=lambda x: x[1], reverse=True
+)[:2]
 
-# first_monkey = monkeys[0]
-# third_monkey = monkeys[2]
-# print(first_monkey)
-# print(third_monkey)
+monkey_business = monkey_activity[0][1] * monkey_activity[1][1]
 
-# assert len(first_monkey.starting_items) > 0
-
-for monkey in monkeys:
-    if len(monkey.starting_items) == 0:
-        continue
-    for starting_item in monkey.starting_items:
-        # print(starting_item)
-        updated_worry_level = monkey.update_worry_level(starting_item)
-        # print(starting_item, updated_worry_level)
-        next_monkey = monkey.get_next_monkey(updated_worry_level)
-        # print(next_monkey)
-
-        for ape in monkeys:
-            if ape.id == next_monkey:
-                ape.starting_items.append(updated_worry_level)
-
-    monkey.starting_items = []
-
-pp(monkeys)
+print(inspections["monkeys"])
+print(monkey_activity)
+print(f"{monkey_business = }")
