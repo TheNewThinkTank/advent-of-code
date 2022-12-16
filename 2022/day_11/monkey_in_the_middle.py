@@ -1,33 +1,15 @@
 from dataclasses import dataclass
 from itertools import filterfalse, islice
+import math
 
 # from pprint import pprint as pp
-
-
-@dataclass
-class Monkey:
-    id: int
-    starting_items: list
-    test_divisible_by: int
-    operation: str
-    next_monkey_on_true: int
-    next_monkey_on_false: int
-
-    def update_worry_level(self, old):
-        res = eval(self.operation)
-        # part 1
-        # res = res // 3
-        return res
-
-    def get_next_monkey(self, new) -> int:
-        if new % self.test_divisible_by == 0:
-            return self.next_monkey_on_true
-        return self.next_monkey_on_false
+from tqdm import tqdm
 
 
 def get_raw_monkeys():
     raw_monkeys = []
-    data_file = "input.txt"  # "sample.txt"
+    data_files = ["sample.txt", "input.txt"]
+    data_file = data_files[0]
     with open(data_file, "r") as rf:
         while True:
             filt_rf = filterfalse(lambda line: line.startswith("\n"), rf)
@@ -60,14 +42,56 @@ for monkey in raw_monkeys:
     }
     clean_monkeys.append(clean_monkey)
 
+
+def is_prime(n: int) -> bool:
+    for k in range(2, int(math.sqrt(n)) + 1):
+        if n % k == 0:
+            return False
+    return True
+
+
+tests = []
+for monkey in clean_monkeys:
+    assert is_prime(monkey["test_divisible_by"]) is True
+    tests.append(monkey["test_divisible_by"])
+
+
+least_common_multiple = math.lcm(*tests)
+
+
+@dataclass
+class Monkey:
+    id: int
+    starting_items: list
+    test_divisible_by: int
+    operation: str
+    next_monkey_on_true: int
+    next_monkey_on_false: int
+
+    def update_worry_level(self, old):
+        res = eval(self.operation)
+
+        # part 1
+        # res = res // 3
+
+        # part 2
+        res //= least_common_multiple
+
+        return res
+
+    def get_next_monkey(self, new) -> int:
+        if new % self.test_divisible_by == 0:
+            return self.next_monkey_on_true
+        return self.next_monkey_on_false
+
+
 monkeys = [Monkey(**clean_monkey) for clean_monkey in clean_monkeys]
 
 inspections = {"round": 0, "monkeys": {idx: 0 for idx, _ in enumerate(monkeys)}}
 rounds = 10_000  # 20
 
-for i in range(rounds):
+for i in tqdm(range(rounds)):
     inspections["round"] += 1
-    print("Round: ", i)
     for monkey in monkeys:
         if len(monkey.starting_items) == 0:
             continue
