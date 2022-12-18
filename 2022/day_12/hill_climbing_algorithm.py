@@ -20,22 +20,28 @@ def make_grid():
     return np.array(grid)
 
 
+def update_grid(grid):
+    height_values = {letter: i + 1 for i, letter in enumerate(string.ascii_lowercase)}
+    start_and_end_values = {"S": 1, "E": 26}
+    elevation = height_values | start_and_end_values
+    height_map = np.zeros(grid.shape).astype("int")
+    for idx, height in np.ndenumerate(grid):
+        x, y = idx
+        height_map[x, y] = elevation[height]
+    return height_map
+
+
 grid = make_grid()
-print(grid)
+# print(grid)
+height_map = update_grid(grid)
+print(height_map)
 
 # rows, cols = grid.shape[0], grid.shape[1]
 start_position = np.argwhere(grid == "S").flatten()
 best_signal = np.argwhere(grid == "E").flatten()
 # print(start_position, best_signal)
 
-height_values = {letter: i + 1 for i, letter in enumerate(string.ascii_lowercase)}
-start_and_end_values = {"S": 1, "E": 26}
-elevation = height_values | start_and_end_values
-
-height_map = np.zeros(grid.shape).astype("int")
-
-for idx, height in np.ndenumerate(grid):
+for idx, height in np.ndenumerate(height_map):
     x, y = idx
-    height_map[x, y] = elevation[height]
-
-print(height_map)
+    if height_map[x, y] >= height_map[x, y + 1] + 1:
+        print(f"{height_map[x, y]} can go to: {height_map[x, y+1]}")
