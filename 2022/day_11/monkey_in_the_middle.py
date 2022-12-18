@@ -9,7 +9,7 @@ from tqdm import tqdm
 def get_raw_monkeys():
     raw_monkeys = []
     data_files = ["sample.txt", "input.txt"]
-    data_file = data_files[0]
+    data_file = data_files[1]
     with open(data_file, "r") as rf:
         while True:
             filt_rf = filterfalse(lambda line: line.startswith("\n"), rf)
@@ -72,10 +72,10 @@ class Monkey:
         res = eval(self.operation)
 
         # part 1
-        # res = res // 3
+        # res //= 3
 
         # part 2
-        res //= least_common_multiple
+        res %= least_common_multiple
 
         return res
 
