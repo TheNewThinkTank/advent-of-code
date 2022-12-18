@@ -31,11 +31,11 @@ best_signal = np.argwhere(grid == "E").flatten()
 height_values = {letter: i + 1 for i, letter in enumerate(string.ascii_lowercase)}
 start_and_end_values = {"S": 1, "E": 26}
 elevation = height_values | start_and_end_values
-# pp(elevation)
+
+height_map = np.zeros(grid.shape).astype("int")
 
 for idx, height in np.ndenumerate(grid):
     x, y = idx
-    # print(x, y, height, elevation[height], grid[x, y])
-    grid[x, y] = elevation[height]
+    height_map[x, y] = elevation[height]
 
-print(grid)
+print(height_map)
