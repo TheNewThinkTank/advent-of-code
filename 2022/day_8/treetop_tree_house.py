@@ -38,17 +38,6 @@ def part_2():
     top_view = 0
     bottom_view = 0
 
-    # def count_view(view, grid):
-    #     for z in grid:
-    #         view += 1
-    #         if tree <= z:
-    #             break
-
-    # left_view = count_view(left_view, grid[k, :l][::-1])
-    # right_view = count_view(right_view, grid[k, l + 1 :])
-    # top_view = count_view(top_view, grid[:k, l][::-1])
-    # bottom_view = count_view(bottom_view, grid[k + 1 :, l])
-
     for z in grid[k, :l][::-1]:
         left_view += 1
         if tree <= z:
