@@ -39,9 +39,31 @@ print(height_map)
 # rows, cols = grid.shape[0], grid.shape[1]
 start_position = np.argwhere(grid == "S").flatten()
 best_signal = np.argwhere(grid == "E").flatten()
-# print(start_position, best_signal)
+print(start_position, best_signal)
 
+x, y = start_position
+# print(height_map[x, y])
+# print(height_map[best_signal[0], best_signal[1]])
+# print(height_map[x, y:].shape[0])
+
+has_space_right = height_map[x, y:].shape[0] > 1
+if has_space_right:
+    can_go_right = height_map[x, y] + 1 >= height_map[x, y + 1]
+    if can_go_right:
+        print(f"{height_map[x, y]} can go to: {height_map[x, y+1]}")
+
+
+"""
 for idx, height in np.ndenumerate(height_map):
     x, y = idx
-    if height_map[x, y] >= height_map[x, y + 1] + 1:
-        print(f"{height_map[x, y]} can go to: {height_map[x, y+1]}")
+
+    has_space_right = height_map[x, y:].shape[0] > 1
+    if has_space_right:
+        can_go_right = height_map[x, y] >= height_map[x, y + 1] + 1
+        if can_go_right:
+            print(f"{height_map[x, y]} can go to: {height_map[x, y+1]}")
+
+    # can_go_left = height_map[x, y] >= height_map[x, y - 1] + 1
+    # can_go_up = height_map[x, y] >= height_map[x - 1, y] + 1
+    # can_go_down = height_map[x, y] >= height_map[x + 1, y] + 1
+"""
