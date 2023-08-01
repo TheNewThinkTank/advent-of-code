@@ -38,22 +38,22 @@ def part_2():
     top_view = 0
     bottom_view = 0
 
-    for z in grid[k, :l][::-1]:
+    for z in grid[inner_x, :inner_y][::-1]:
         left_view += 1
         if tree <= z:
             break
 
-    for z in grid[k, l + 1 :]:
+    for z in grid[inner_x, inner_y + 1 :]:
         right_view += 1
         if tree <= z:
             break
 
-    for z in grid[:k, l][::-1]:
+    for z in grid[:inner_x, inner_y][::-1]:
         top_view += 1
         if tree <= z:
             break
 
-    for z in grid[k + 1 :, l]:
+    for z in grid[inner_x + 1 :, inner_y]:
         bottom_view += 1
         if tree <= z:
             break
@@ -64,13 +64,13 @@ def part_2():
 
 for idx, tree in np.ndenumerate(inner_grid):
     x, y = idx
-    k, l = x + 1, y + 1
+    inner_x, inner_y = x + 1, y + 1
 
     # part 1
-    left_visible = all(tree > z for z in grid[k, :l])
-    right_visible = all(tree > z for z in grid[k, l + 1 :])
-    top_visible = all(tree > z for z in grid[:k, l])
-    bottom_visible = all(tree > z for z in grid[k + 1 :, l])
+    left_visible = all(tree > z for z in grid[inner_x, :inner_y])
+    right_visible = all(tree > z for z in grid[inner_x, inner_y + 1 :])
+    top_visible = all(tree > z for z in grid[:inner_x, inner_y])
+    bottom_visible = all(tree > z for z in grid[inner_x + 1 :, inner_y])
     if left_visible or right_visible or top_visible or bottom_visible:
         num_inner_trees += 1
 
