@@ -18,18 +18,15 @@ lines = [line.removesuffix("\n") for line in lines]
 # pp(lines)
 
 
-def get_game_id(game):
+def get_game_id(game: str) -> int:
     return int(game.removeprefix("Game ").split(':')[0])
 
 
-def get_subsets(game):
-    subsets = game.split(':')[1]
-    # subsets = subsets.split(';')
-    # return [subset.strip() for subset in subsets]
-    return subsets
+def get_subsets(game: str) -> str:
+    return game.split(':')[1]
 
 
-def parse_subsets(subsets):
+def parse_subsets(subsets) -> tuple[list, list, list]:
     blue = re.compile(r"(\d*)\sblue")
     red = re.compile(r"(\d*)\sred")
     green = re.compile(r"(\d*)\sgreen")
@@ -38,22 +35,16 @@ def parse_subsets(subsets):
     red_matches = [int(i) for i in red.findall(subsets)]
     green_matches = [int(i) for i in green.findall(subsets)]
 
-    # ic(blue_matches)
-    # ic(red_matches)
-    # ic(green_matches)
-
-    # print(subsets)
-    # for subset in subsets:
-    #     print(subset)
-    #     print(regex.search(subset))
-
     return blue_matches, red_matches, green_matches
 
 
 # part 1
 
 
-def filter_games(game, blue_matches, red_matches, green_matches):
+def filter_games(game: str,
+                 blue_matches: list,
+                 red_matches: list,
+                 green_matches: list) -> int:
     # print(blue_matches)
     total_red = 12
     total_green = 13
@@ -68,12 +59,9 @@ def filter_games(game, blue_matches, red_matches, green_matches):
         # ic(game_id)
         return game_id
     return 0
-    # total_red
-    # total_green
-    # total_blue
 
 
-def part_1():
+def part_1() -> None:
     game_id_total = 0
     for game in lines:
         subsets = get_subsets(game)
@@ -86,18 +74,14 @@ def part_1():
     ic(game_id_total)
 
 
-def part_2():
+def part_2() -> None:
     power_total = 0
     for game in lines:
         subsets = get_subsets(game)
-        # ic(subsets)
         blue_matches, red_matches, green_matches = parse_subsets(subsets)
-        blue = max(blue_matches)
-        red = max(red_matches)
-        green = max(green_matches)
-        power = blue * red * green
-        power_total += power
+        power_total += max(blue_matches) * max(red_matches) * max(green_matches)
     ic(power_total)
 
 
+# part_1()
 part_2()
