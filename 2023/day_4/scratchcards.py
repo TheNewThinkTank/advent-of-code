@@ -1,5 +1,5 @@
 
-from pprint import pprint as pp
+# from pprint import pprint as pp
 from icecream import ic
 
 datafiles = [
@@ -7,7 +7,7 @@ datafiles = [
     "input_sample.txt",
     ]
 
-datafile = datafiles[0]
+datafile = datafiles[1]
 
 with open(datafile, "r") as rf:
     lines = rf.readlines()
@@ -26,18 +26,57 @@ def get_numbers(card: str):
     # return winning_numbers, actual_numbers
 
 
-total_points = 0
-for card in lines:
+def get_num_wins(card: str):
     winning_numbers, actual_numbers = get_numbers(card)
     wins = winning_numbers.intersection(actual_numbers)
-    # wins = [i for i in actual_numbers if i in winning_numbers]
-    num_wins = len(wins)
+    return len(wins)
 
-    # points = 2 * num_wins if num_wins > 2 else num_wins
-    points = 2 ** (num_wins - 1) if num_wins else 0
-    total_points += points
 
-    # ic(num_wins)
-    # ic(points)
+def part_1():
+    total_points = 0
+    for card in lines:
+        num_wins = get_num_wins(card)
+        # part 1
+        points = 2 ** (num_wins - 1) if num_wins else 0
+        total_points += points
+        # ic(num_wins)
+        # ic(points)
+    ic(total_points)
 
-ic(total_points)
+
+# part 2
+
+
+def get_card_id(card: str) -> int:
+    return int(card.removeprefix("Card ").split(':')[0])
+
+
+def init_cards_to_process():
+    cards_to_process = {}  # card id and number of times it is due to be processed
+    # before first iteration
+    for card in lines:
+        card_id = get_card_id(card)
+        cards_to_process[card_id] = 1
+    return cards_to_process
+
+
+def update_cards_to_process():
+    # first iteration
+    for card in lines:
+        card_id = get_card_id(card)
+        num_wins = get_num_wins(card)
+
+        for win in range(card_id + 1, card_id + num_wins + 1):
+            cards_to_process[win] += 1
+    return cards_to_process
+
+
+# part_1()
+cards_to_process = init_cards_to_process()
+ic(cards_to_process)
+cards_to_process = update_cards_to_process()
+ic(cards_to_process)
+
+# In the end, add 1 instance of card 1.
+# total_scratchcards = 1 + sum(cards_to_process.values())
+# ic(total_scratchcards)
