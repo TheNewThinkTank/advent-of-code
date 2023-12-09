@@ -7,7 +7,7 @@ datafiles = [
     "input_sample.txt",
     ]
 
-datafile = datafiles[1]
+datafile = datafiles[0]
 
 with open(datafile, "r") as rf:
     lines = rf.readlines()
@@ -60,23 +60,20 @@ def init_cards_to_process():
     return cards_to_process
 
 
-def update_cards_to_process():
-    # first iteration
-    for card in lines:
-        card_id = get_card_id(card)
-        num_wins = get_num_wins(card)
-
+def update_cards_to_process(card):
+    card_id = get_card_id(card)
+    num_wins = get_num_wins(card)
+    # ic(card_id)
+    for _ in range(cards_to_process[card_id]):
         for win in range(card_id + 1, card_id + num_wins + 1):
             cards_to_process[win] += 1
-    return cards_to_process
 
 
 # part_1()
 cards_to_process = init_cards_to_process()
-ic(cards_to_process)
-cards_to_process = update_cards_to_process()
-ic(cards_to_process)
-
-# In the end, add 1 instance of card 1.
-# total_scratchcards = 1 + sum(cards_to_process.values())
-# ic(total_scratchcards)
+# ic(cards_to_process)
+for card in lines:
+    update_cards_to_process(card)
+# ic(cards_to_process)
+total_scratchcards = sum(cards_to_process.values())
+ic(total_scratchcards)
