@@ -51,37 +51,37 @@ humidity_to_location_map = get_map(7)
 # 2. repeat for all seeds
 # 3. find the minimum location value
 
-seed = seeds[0]
-ic(seed)
 
-
-def in_range(source_start, range_len) -> bool:
-    return seed in range(source_start, source_start + range_len + 1)
+def in_range(source_value, source_start, range_len) -> bool:
+    return source_value in range(source_start, source_start + range_len + 1)
 
 
 def get_dest_value(source_value, map):
     dest_value = source_value
     for line in map:
         dest_start, source_start, range_len = line
-        cond = in_range(source_start, range_len)
+        cond = in_range(source_value, source_start, range_len)
         if cond:
             offset = source_value - source_start
             dest_value = dest_start + offset
     return dest_value
 
 
-soil = get_dest_value(seed, seed_to_soil_map)
-fertilizer = get_dest_value(soil, soil_to_fertilizer_map)
-water = get_dest_value(fertilizer, fertilizer_to_water_map)
-light = get_dest_value(water, water_to_light_map)
-temperature = get_dest_value(light, light_to_temperature_map)
-humidity = get_dest_value(temperature, temperature_to_humidity_map)
-location = get_dest_value(humidity, humidity_to_location_map)
+# seed = seeds[0]
+for seed in seeds:
+    soil = get_dest_value(seed, seed_to_soil_map)
+    fertilizer = get_dest_value(soil, soil_to_fertilizer_map)
+    water = get_dest_value(fertilizer, fertilizer_to_water_map)
+    light = get_dest_value(water, water_to_light_map)
+    temperature = get_dest_value(light, light_to_temperature_map)
+    humidity = get_dest_value(temperature, temperature_to_humidity_map)
+    location = get_dest_value(humidity, humidity_to_location_map)
 
-ic(soil)
-ic(fertilizer)
-ic(water)
-ic(light)
-ic(temperature)  # correct temperature: 78
-ic(humidity)
-ic(location)
+    ic(seed)
+    # ic(soil)
+    # ic(fertilizer)
+    # ic(water)
+    # ic(light)
+    # ic(temperature)
+    # ic(humidity)
+    ic(location)
