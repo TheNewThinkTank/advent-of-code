@@ -62,12 +62,18 @@ def get_dest_value(source_value, map):
         dest_start, source_start, range_len = line
         cond = in_range(source_value, source_start, range_len)
         if cond:
+
             offset = source_value - source_start
             dest_value = dest_start + offset
+            # debug
+            # if source_value == 14:
+            #     ic(offset)
+            #     ic(dest_value)
     return dest_value
 
 
 # seed = seeds[0]
+locations = []
 for seed in seeds:
     soil = get_dest_value(seed, seed_to_soil_map)
     fertilizer = get_dest_value(soil, soil_to_fertilizer_map)
@@ -77,11 +83,34 @@ for seed in seeds:
     humidity = get_dest_value(temperature, temperature_to_humidity_map)
     location = get_dest_value(humidity, humidity_to_location_map)
 
-    ic(seed)
-    # ic(soil)
-    # ic(fertilizer)
-    # ic(water)
-    # ic(light)
-    # ic(temperature)
-    # ic(humidity)
-    ic(location)
+    locations.append(location)
+
+    if seed == 14:
+        ic(seed)
+        ic(soil)
+        ic(fertilizer)
+        ic(water)
+        ic(light)
+        ic(temperature)
+        ic(humidity)
+        ic(location)
+
+    if seed == 79:
+        assert location == 82
+    # if seed == 14:
+    #     assert location == 43
+    if seed == 55:
+        assert location == 86
+    if seed == 13:
+        assert location == 35
+
+
+print(min(locations))
+
+# debug: seed 14 -> location 43
+'''
+Seed 79, soil 81, fertilizer 81, water 81, light 74, temperature 78, humidity 78, location 82
+Seed 14, soil 14, fertilizer 53, water 49, light 42, temperature 42, humidity 43, location 43
+Seed 55, soil 57, fertilizer 57, water 53, light 46, temperature 82, humidity 82, location 86
+Seed 13, soil 13, fertilizer 52, water 41, light 34, temperature 34, humidity 35, location 35
+'''
