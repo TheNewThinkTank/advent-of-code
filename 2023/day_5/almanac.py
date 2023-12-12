@@ -1,5 +1,6 @@
 
 # from pprint import pprint as pp
+from tqdm import tqdm
 from icecream import ic
 
 datafiles = [
@@ -7,7 +8,7 @@ datafiles = [
     "input_sample.txt",
     ]
 
-datafile = datafiles[1]
+datafile = datafiles[0]
 
 with open(datafile, "r") as rf:
     lines = rf.read().split('\n\n')
@@ -72,45 +73,66 @@ def get_dest_value(source_value, map):
     return dest_value
 
 
-# seed = seeds[0]
-locations = []
-for seed in seeds:
-    soil = get_dest_value(seed, seed_to_soil_map)
-    fertilizer = get_dest_value(soil, soil_to_fertilizer_map)
-    water = get_dest_value(fertilizer, fertilizer_to_water_map)
-    light = get_dest_value(water, water_to_light_map)
-    temperature = get_dest_value(light, light_to_temperature_map)
-    humidity = get_dest_value(temperature, temperature_to_humidity_map)
-    location = get_dest_value(humidity, humidity_to_location_map)
+def get_lowest_location_number(seeds):
+    # seed = seeds[0]
+    locations = []
+    for seed in seeds:
+        soil = get_dest_value(seed, seed_to_soil_map)
+        fertilizer = get_dest_value(soil, soil_to_fertilizer_map)
+        water = get_dest_value(fertilizer, fertilizer_to_water_map)
+        light = get_dest_value(water, water_to_light_map)
+        temperature = get_dest_value(light, light_to_temperature_map)
+        humidity = get_dest_value(temperature, temperature_to_humidity_map)
+        location = get_dest_value(humidity, humidity_to_location_map)
 
-    locations.append(location)
+        locations.append(location)
 
-    if seed == 14:
-        ic(seed)
-        ic(soil)
-        ic(fertilizer)
-        ic(water)
-        ic(light)
-        ic(temperature)
-        ic(humidity)
-        ic(location)
+        # if seed == 14:
+        #     ic(seed)
+        #     ic(soil)
+        #     ic(fertilizer)
+        #     ic(water)
+        #     ic(light)
+        #     ic(temperature)
+        #     ic(humidity)
+        #     ic(location)
 
-    if seed == 79:
-        assert location == 82
-    # if seed == 14:
-    #     assert location == 43
-    if seed == 55:
-        assert location == 86
-    if seed == 13:
-        assert location == 35
+        # if seed == 79:
+        #     assert location == 82
+        # # if seed == 14:
+        # #     assert location == 43
+        # if seed == 55:
+        #     assert location == 86
+        # if seed == 13:
+        #     assert location == 35
+
+    return min(locations)
+    # debug: seed 14 -> location 43
 
 
-print(min(locations))
-
-# debug: seed 14 -> location 43
+# part 1
+# print(get_lowest_location_number(seeds))
 '''
 Seed 79, soil 81, fertilizer 81, water 81, light 74, temperature 78, humidity 78, location 82
 Seed 14, soil 14, fertilizer 53, water 49, light 42, temperature 42, humidity 43, location 43
 Seed 55, soil 57, fertilizer 57, water 53, light 46, temperature 82, humidity 82, location 86
 Seed 13, soil 13, fertilizer 52, water 41, light 34, temperature 34, humidity 35, location 35
 '''
+
+# part 2
+# seeds: start of the range and the second value is the length
+# ic(seeds)
+
+# seed_pairs = [(seeds[i], seeds[i + 1]) for i in range(0, len(seeds), 2)]
+seeds_ranges = [
+    range(seeds[i], seeds[i]+seeds[i + 1])
+    for i in range(0, len(seeds), 2)
+              ]
+# ic(seeds_ranges)
+
+locations = []
+for seeds_range in tqdm(seeds_ranges):
+    location = get_lowest_location_number(seeds_range)
+    locations.append(location)
+
+ic(min(locations))
