@@ -36,7 +36,11 @@ def get_hand_type(hand):
     # One pair: A23A4
     # High card: 23456
 
-    ic(Counter(hand))
+    counts = Counter(hand)
+    ic(len(counts))
+    for k, v in counts.items():
+        print(k, v)
+    ic(counts)
 
     unique_cards = len(set(hand))
     hand_type = {
@@ -46,6 +50,10 @@ def get_hand_type(hand):
         4: "One pair",
         5: "High card",
     }
+
+    if unique_cards == 2:
+        ...
+
     return hand_type[unique_cards]
 
 
