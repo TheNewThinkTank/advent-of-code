@@ -1,8 +1,7 @@
-"""
-"""
 
-# from pprint import pprint as pp
+from pprint import pprint as pp
 from collections import Counter
+from operator import itemgetter
 
 # from tqdm import tqdm
 from icecream import ic
@@ -19,7 +18,9 @@ with open(datafile, "r") as rf:
 lines = [line.removesuffix("\n") for line in lines]
 
 hands_and_bids = [
-    (line.split(" ")[0], int(line.split(" ")[1])) for line in lines
+    {"hand": line.split(" ")[0],
+     "bid": int(line.split(" ")[1])
+    } for line in lines
 ]
 
 # part 1
@@ -28,40 +29,75 @@ hands_and_bids = [
 
 
 def get_hand_type(hand):
-    # Five of a kind: AAAAA
-    # Four of a kind: AA8AA
-    # Full house: 23332
-    # Three of a kind: TTT98
-    # Two pair: 23432
-    # One pair: A23A4
-    # High card: 23456
-
     counts = Counter(hand)
-    ic(len(counts))
-    for k, v in counts.items():
-        print(k, v)
-    ic(counts)
+    vals = sorted(list(counts.values()))
+    hand_type = ""
+    top_level_rank = 0
+    if 5 in vals:
+        hand_type = "Five of a kind"
+        top_level_rank = 7
+    elif 4 in vals:
+        hand_type = "Four of a kind"
+        top_level_rank = 6
+    elif vals == [2, 3]:
+        hand_type = "Full house"
+        top_level_rank = 5
+    elif vals == [1, 1, 3]:
+        hand_type = "Three of a kind"
+        top_level_rank = 4
+    elif vals == [1, 2, 2]:
+        hand_type = "Two pair"
+        top_level_rank = 3
+    elif vals == [1, 1, 1, 2]:
+        hand_type = "One pair"
+        top_level_rank = 2
+    elif vals == [1, 1, 1, 1, 1]:
+        hand_type = "High card"
+        top_level_rank = 1
 
-    unique_cards = len(set(hand))
-    hand_type = {
-        1: "Five of a kind",
-        2: "Four of a kind, or Full house",
-        3: "Three of a kind, or Two pair",
-        4: "One pair",
-        5: "High card",
-    }
-
-    if unique_cards == 2:
-        ...
-
-    return hand_type[unique_cards]
+    return hand_type, top_level_rank
 
 
-for hand_and_bid in hands_and_bids:
-    hand = hand_and_bid[0]
-    # ic(hand_and_bid)
-    ic(hand)
-    # unique_cards = len(set(hand))
-    # ic(unique_cards)
-    hand_type = get_hand_type(hand)
-    ic(hand_type)
+number_of_hands = len(hands_and_bids)
+
+card_strengths = {
+    "A": 13,
+    "K": 12,
+    "Q": 11,
+    "J": 10,
+    "T": 9,
+    "9": 8,
+    "8": 7,
+    "7": 6,
+    "6": 5,
+    "5": 4,
+    "4": 3,
+    "3": 2,
+    "2": 1
+}
+
+for idx, hand_and_bid in enumerate(hands_and_bids):
+    hand = hand_and_bid["hand"]
+    bid = hand_and_bid["bid"]
+    hand_type, top_level_rank = get_hand_type(hand)
+    hands_and_bids[idx]["hand_type"] = hand_type
+    hands_and_bids[idx]["top_level_rank"] = top_level_rank
+
+hands_and_bids = sorted(hands_and_bids,
+                        key=itemgetter('top_level_rank'),
+                        reverse=True
+                        )
+# pp(hands_and_bids)
+
+
+def second_ordering_rule(hand_and_bid1, hand_and_bid2):
+    assert hand_and_bid1["top_level_rank"] == hand_and_bid2["top_level_rank"]
+    # TODO: second ordering
+    if card_strengths[hand_and_bid1["hand"][0]] > card_strengths[hand_and_bid2["hand"][0]]:
+        print(hand_and_bid1["hand"] + " is stronger than " + hand_and_bid2["hand"])
+    else:
+        print(hand_and_bid1["hand"] + " is weaker than " + hand_and_bid2["hand"])
+    # weakest hand gets rank 1
+
+
+second_ordering_rule(hands_and_bids[0], hands_and_bids[1])
