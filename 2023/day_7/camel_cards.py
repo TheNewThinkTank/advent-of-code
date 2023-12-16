@@ -90,30 +90,38 @@ hands_and_bids = sorted(hands_and_bids,
 # pp(hands_and_bids)
 
 
-def second_ordering_rule(hand_and_bid1, hand_and_bid2):
-    assert hand_and_bid1["top_level_rank"] == hand_and_bid2["top_level_rank"]
+def second_ordering_rule(hand_and_bid_1, hand_and_bid_2):
+    """compare overall ranks for two hands with the same top_level_rank.
+    """
+    assert hand_and_bid_1["top_level_rank"] == hand_and_bid_2["top_level_rank"]
     # TODO: second ordering
     # weakest hand gets rank 1
     highest_ranked_card = 0
 
-    for card_1, card_2 in zip(hand_and_bid1["hand"], hand_and_bid2["hand"]):
+    for card_1, card_2 in zip(hand_and_bid_1["hand"], hand_and_bid_2["hand"]):
         if card_strengths[card_1] > card_strengths[card_2]:
-            print(card_1 + " is stronger than " + card_2)
+            # print(card_1 + " is stronger than " + card_2)
             highest_ranked_card = 1
         elif card_strengths[card_1] < card_strengths[card_2]:
-            print(card_1 + " is weaker than " + card_2)
+            # print(card_1 + " is weaker than " + card_2)
             highest_ranked_card = 2
-        else:
-            print(card_1 + " and " + card_2 + " are the same")
+        # else:
+        #   print(card_1 + " and " + card_2 + " are the same")
         if highest_ranked_card != 0:
             return highest_ranked_card
     return highest_ranked_card
 
 
 bottom_rank = hands_and_bids[-1]["top_level_rank"]
-# no_bottom_rank_cards = len(hands_and_bids)
-ic(bottom_rank)
+no_bottom_rank_cards = len([item for item in hands_and_bids if item['top_level_rank'] == bottom_rank])
+if no_bottom_rank_cards == 1:
+    hands_and_bids[-1]["final_rank"] = 1
+else:
+    highest_ranked_card = second_ordering_rule(hands_and_bids[-1], hands_and_bids[-2])
 
-highest_ranked_card = second_ordering_rule(hands_and_bids[0], hands_and_bids[1])
 
+# ic(bottom_rank)
+# ic(no_bottom_rank_cards)
+# highest_ranked_card = second_ordering_rule(hands_and_bids[0], hands_and_bids[1])
 
+pp(hands_and_bids)
