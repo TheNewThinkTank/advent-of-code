@@ -118,7 +118,10 @@ if no_bottom_rank_cards == 1:
     hands_and_bids[-1]["final_rank"] = 1
 else:
     highest_ranked_card = second_ordering_rule(hands_and_bids[-1], hands_and_bids[-2])
-
+    if highest_ranked_card == 1:
+        hands_and_bids[-1]["final_rank"] = 1
+    else:
+        hands_and_bids[-2]["final_rank"] = 1
 
 # ic(bottom_rank)
 # ic(no_bottom_rank_cards)
