@@ -112,20 +112,19 @@ def second_ordering_rule(hand_and_bid_1, hand_and_bid_2):
     return highest_ranked_card
 
 
-top_level_rank_counts = {}
-# Count the occurrences of each top_level_rank value
-for item in hands_and_bids:
-    top_level_rank = item['top_level_rank']
-    top_level_rank_counts[top_level_rank] = top_level_rank_counts.get(top_level_rank, 0) + 1
+def get_rank_counts():
+    top_level_rank_counts = {}
+    # Count the occurrences of each top_level_rank value
+    for item in hands_and_bids:
+        top_level_rank = item['top_level_rank']
+        top_level_rank_counts[top_level_rank] = top_level_rank_counts.get(top_level_rank, 0) + 1
+    return top_level_rank_counts
 
-# Display the counts for each top_level_rank value
+
+top_level_rank_counts = get_rank_counts()
 for top_level_rank, count in top_level_rank_counts.items():
-    # print(f"Top Level Rank {top_level_rank}: {count} occurrences")
     ic(top_level_rank, count)
 
-# TODO: use count instead of no_bottom_rank_cards
-# bottom_rank = hands_and_bids[-1]["top_level_rank"]
-# no_bottom_rank_cards = len([item for item in hands_and_bids if item['top_level_rank'] == bottom_rank])
 lowest_rank, lowest_count = list(top_level_rank_counts.items())[-1]
 ic(lowest_rank)
 ic(lowest_count)
@@ -133,14 +132,22 @@ ic(lowest_count)
 if lowest_count == 1:
     hands_and_bids[-1]["final_rank"] = 1
 else:
-    highest_ranked_card = second_ordering_rule(hands_and_bids[-1], hands_and_bids[-2])
-    if highest_ranked_card == 1:
-        hands_and_bids[-1]["final_rank"] = 1
-    else:
-        hands_and_bids[-2]["final_rank"] = 1
+    for i in range(lowest_count):
+        highest_ranked_card = second_ordering_rule(hands_and_bids[-i-1],
+                                                   hands_and_bids[-i-2]
+                                                   )
+        ic(highest_ranked_card)
+        hands_and_bids[-highest_ranked_card]["final_rank"] = 1
+
+    # highest_ranked_card = second_ordering_rule(hands_and_bids[-1], hands_and_bids[-2])
+    # hands_and_bids[-highest_ranked_card]["final_rank"] = 1
+    #if highest_ranked_card == 1:
+    #     hands_and_bids[-1]["final_rank"] = 1
+    # else:
+    #     hands_and_bids[-2]["final_rank"] = 1
 
 # ic(bottom_rank)
 # ic(no_bottom_rank_cards)
 # highest_ranked_card = second_ordering_rule(hands_and_bids[0], hands_and_bids[1])
 
-# pp(hands_and_bids)
+pp(hands_and_bids)
