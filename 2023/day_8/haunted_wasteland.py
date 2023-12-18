@@ -1,3 +1,4 @@
+import itertools
 # from pprint import pprint as pp
 from icecream import ic
 
@@ -24,25 +25,38 @@ def get_instructions_and_nodes():
     return left_right_instructions, nodes_lr
 
 
-left_right_instructions, nodes_lr = get_instructions_and_nodes()
-ic(left_right_instructions)
-ic(nodes_lr)
-index_map = {"R": 1, "L": 0}
+# index_map = {"R": 1, "L": 0}
+# def get_next_node(current_node, current_instruction):
+#     return nodes_lr[current_node][index_map[current_instruction]]
 
 
-def get_next_node(current_node, current_instruction):
-    return nodes_lr[current_node][index_map[current_instruction]]
+def get_steps():
+    left_right_instructions, nodes_lr = get_instructions_and_nodes()
+    ic(left_right_instructions)
+    ic(nodes_lr)
+    
+    left_right_instructions = itertools.cycle(0 if d == 'L' else 1 for d in left_right_instructions)
+    node = 'AAA'
+    steps = 0
+    for steps, d in enumerate(left_right_instructions, start=1):
+        node = nodes_lr[node][d]
+        if node == 'ZZZ':
+            break
+
+    return steps
 
 
-steps = 1
-first_node = list(nodes_lr.keys())[0]
-next_node = get_next_node(first_node, left_right_instructions[0])
-ic(next_node)
-left_right_instructions = left_right_instructions * 100_000
-
-while next_node != "ZZZ":
-    steps += 1
-    next_node = get_next_node(next_node, left_right_instructions[steps - 1])
-    ic(next_node)
-
+steps = get_steps()
 ic(steps)
+
+# steps = 1
+# first_node = list(nodes_lr.keys())[0]
+# next_node = get_next_node(first_node, left_right_instructions[0])
+# ic(next_node)
+# # left_right_instructions = itertools.cycle(left_right_instructions)
+# left_right_instructions = left_right_instructions * 10 ** 5
+# while next_node != "ZZZ":
+#     steps += 1
+#     next_node = get_next_node(next_node, left_right_instructions[steps - 1])
+#     ic(next_node)
+# ic(steps)
