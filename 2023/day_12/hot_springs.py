@@ -30,7 +30,6 @@ def get_springs_and_groups_rows():
             line[0],
             [int(i) for i in line[1].split(",")])
             )
-        # springs_and_groups_rows.append((line[0], line[1]))
 
     return springs_and_groups_rows
 
@@ -41,5 +40,3 @@ springs = springs_and_groups[0]
 groups = springs_and_groups[1]
 ic(springs)
 ic(groups)
-
-
