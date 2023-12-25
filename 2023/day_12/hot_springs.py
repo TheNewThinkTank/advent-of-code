@@ -40,3 +40,18 @@ springs = springs_and_groups[0]
 groups = springs_and_groups[1]
 ic(springs)
 ic(groups)
+
+
+def reveal_springs(springs, groups):
+    ...
+
+
+test = {
+    'input': { 
+        'springs': '???.###', 
+        'groups': [1, 1, 3]
+    },
+    'output': '#.#.###'
+}
+
+assert reveal_springs(**test['input']) == test['output']
