@@ -1,12 +1,14 @@
-from pprint import pprint as pp
+# from pprint import pprint as pp
 from collections import OrderedDict
+
+from tqdm import tqdm
 from icecream import ic
 
 datafiles = [
     "input.txt",
     "input_sample.txt",
     ]
-datafile = datafiles[1]
+datafile = datafiles[0]
 
 
 def get_data():
@@ -51,6 +53,30 @@ def get_wfs(workflows):
     return wfs
 
 
+def run_wf(part_rating, wfs, wf: str):
+    # print("Starting wf: ", wf)
+    for name, cond in wfs[wf].items():
+
+        if not cond:
+            if name in ("A", "R"):
+                # ic(name)
+                return name
+            # print("STARTING WF: ", name)
+            return run_wf(part_rating, wfs, name)
+
+        cond_parts = cond.partition(">") if ">" in cond else cond.partition("<")
+        category = cond_parts[0]
+        operator = cond_parts[1]
+        value = int(cond_parts[2])
+
+        expression = f"{part_rating[category]} {operator} {value}"
+        res = eval(expression)
+        if res:
+            if name in ("A", "R"):
+                return name
+            return run_wf(part_rating, wfs, name)
+
+
 data = get_data()
 workflows = data[0].split("\n")
 part_ratings = data[1].split("\n")
@@ -60,33 +86,29 @@ all_parts = get_all_parts(part_ratings)
 # pp(workflows)
 # pp(part_ratings)
 # workflow = workflows[0]
-part_rating = all_parts[0]
+# part_rating = all_parts[0]
 # ic(part_rating)
 wfs = get_wfs(workflows)
 # pp(wfs)
 # print(wfs['in'])
 
-for name, cond in wfs['in'].items():
+# ic(wfs['in'])
+# ic(wfs['qqz'])
+# ic(wfs['lnx'])
+# first = run_wf('in')
+# print(first)
 
-    if not cond:
-        if name == "A" or name == "R":
-            print("final status: ", name)
-            break
-        print("Start wf: ", name)
-        break
 
-    ic(name)
-    # ic(cond)
+def get_rating_total():
+    rating_total = 0
+    for part_rating in tqdm(all_parts):
+        res = run_wf(part_rating, wfs, 'in')
+        if res == "A":
+            # print(part_rating)
+            rating_total += sum(part_rating.values())
+        # ic(res)
+    return rating_total
 
-    cond_parts = cond.partition(">") if ">" in cond else cond.partition("<")
-    ic(cond_parts)
 
-    category = cond_parts[0]
-    operator = cond_parts[1]
-    value = int(cond_parts[2])
-
-    expression = f"{part_rating[category]} {operator} {value}"
-    res = eval(expression)
-    # ic(part_rating[category])
-    ic(expression)
-    ic(res)
+rating_total = get_rating_total()
+ic(rating_total)
