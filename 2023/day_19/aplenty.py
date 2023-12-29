@@ -69,6 +69,9 @@ wfs = get_wfs(workflows)
 for name, cond in wfs['in'].items():
 
     if not cond:
+        if name == "A" or name == "R":
+            print("final status: ", name)
+            break
         print("Start wf: ", name)
         break
 
