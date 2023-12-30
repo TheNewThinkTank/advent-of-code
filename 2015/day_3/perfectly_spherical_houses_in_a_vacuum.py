@@ -36,30 +36,23 @@ current_loc = [0, 0]
 shape = np.shape(houses)
 ic(np.shape(houses))
 
+
+def update_current_loc(dir):
+    if dir == ">":
+        current_loc[1] += 1
+    if dir == "<":
+        current_loc[1] -= 1
+    if dir == "^":
+        current_loc[0] -= 1
+    if dir == "v":
+        current_loc[0] += 1
+    return current_loc
+
+
 # for dir in directions:
-#     if dir == ">":
-#         current_loc[1] += 1
-#         # houses = np.append(houses, 1)
-#     if dir == "<":
-#         current_loc[1] -= 1
-#         # houses = np.insert(houses, , 1)
-#     if dir == "^":
-#         current_loc[0] -= 1
-#         # houses = np.append(houses, 1)
-#     if dir == "v":
-#         current_loc[0] += 1
-
 dir = directions[0]
-
-if dir == ">":
-    current_loc[1] += 1
-if dir == "<":
-    current_loc[1] -= 1
-if dir == "^":
-    current_loc[0] -= 1
-if dir == "v":
-    current_loc[0] += 1
-
+current_loc = update_current_loc(dir)
+ic(current_loc)
 # houses = np.insert(houses, current_loc, 1)
 
 # TODO: check if new dims exceed shape:
