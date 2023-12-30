@@ -26,16 +26,46 @@ def get_data():
     return data
 
 
-directions = get_data()
+directions = "^>v<"  # get_data()
 # ic(directions)
 
-houses = np.zeros((1, 1))
-ic(houses)
+houses = np.ones((1, 1))
+current_loc = [0, 0]
 
-for idx, direction in enumerate(directions):
-    if direction == ">":
-        houses = np.append(houses, 1)
-    if direction == "<":
-        houses = np.insert(houses, idx - 1, 1)
+# ic(houses)
+shape = np.shape(houses)
+ic(np.shape(houses))
 
-ic(houses)
+# for dir in directions:
+#     if dir == ">":
+#         current_loc[1] += 1
+#         # houses = np.append(houses, 1)
+#     if dir == "<":
+#         current_loc[1] -= 1
+#         # houses = np.insert(houses, , 1)
+#     if dir == "^":
+#         current_loc[0] -= 1
+#         # houses = np.append(houses, 1)
+#     if dir == "v":
+#         current_loc[0] += 1
+
+dir = directions[0]
+
+if dir == ">":
+    current_loc[1] += 1
+if dir == "<":
+    current_loc[1] -= 1
+if dir == "^":
+    current_loc[0] -= 1
+if dir == "v":
+    current_loc[0] += 1
+
+# houses = np.insert(houses, current_loc, 1)
+
+# TODO: check if new dims exceed shape:
+
+
+# houses.resize(new_shape)
+
+# ic(current_loc)
+# ic(houses)
