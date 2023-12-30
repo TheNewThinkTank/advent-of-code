@@ -8,7 +8,7 @@
 
 from collections import Counter
 
-from icecream import ic
+# from icecream import ic
 
 datafiles = [
     "input.txt",
