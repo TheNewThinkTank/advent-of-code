@@ -6,6 +6,9 @@ A present with dimensions 1x1x10 requires 2*1 + 2*10 + 2*10 = 42 square feet of 
 plus 1 square foot of slack, for a total of 43 square feet.
 """
 
+from functools import reduce
+from operator import mul
+
 from icecream import ic
 
 
@@ -37,25 +40,42 @@ def get_surface_area(present):
     return surface_area
 
 
-def get_smallest_side_area(present):
+def get_2_smallest_dims(present):
     min_items = min(present.items(), key=lambda x: x[1])
     second_min_items = min((item
                             for item in present.items()
                             if item != min_items),
                             key=lambda x: x[1]
                             )
+    return min_items, second_min_items
+
+
+def get_smallest_side_area(present):
+    min_items, second_min_items = get_2_smallest_dims(present)
     smallest_side_area = min_items[1] * second_min_items[1]
     return smallest_side_area
+
+
+def get_ribbon(present):
+    min_items, second_min_items = get_2_smallest_dims(present)
+    wrap = min_items[1] + min_items[1] + second_min_items[1] + second_min_items[1]
+    bow = reduce(mul, present.values())
+    # ic(wrap)
+    # ic(bow)
+    return wrap + bow
 
 
 # present = {'h': 30, 'l': 20, 'w': 29}
 dim = get_data()
 # ic(dim)
-total = 0
+total_wrapping_paper = 0
+total_ribbon = 0
 for present in dim:
     surface_area = get_surface_area(present)
     smallest_side_area = get_smallest_side_area(present)
     # ic(smallest_side_area)
-    total += surface_area + smallest_side_area
+    total_wrapping_paper += surface_area + smallest_side_area
+    total_ribbon += get_ribbon(present)
 
-ic(total)
+ic(total_wrapping_paper)
+ic(total_ribbon)
