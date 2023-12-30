@@ -79,7 +79,7 @@ def update_all_sequences_part_2(all_sequences: list) -> None:
 
 update_all_sequences_part_2(all_sequences)
 extrapolated_sum = sum([
-    l[0][0]
-    for l in tqdm(all_sequences)
+    seq[0][0]
+    for seq in tqdm(all_sequences)
 ])
 ic(extrapolated_sum)

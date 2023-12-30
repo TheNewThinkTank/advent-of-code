@@ -35,7 +35,9 @@ def get_steps():
     ic(left_right_instructions)
     ic(nodes_lr)
     
-    left_right_instructions = itertools.cycle(0 if d == 'L' else 1 for d in left_right_instructions)
+    left_right_instructions = itertools.cycle(
+        0 if d == 'L' else 1 for d in left_right_instructions
+        )
     node = 'AAA'
     steps = 0
     for steps, d in enumerate(left_right_instructions, start=1):

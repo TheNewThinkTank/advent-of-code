@@ -117,7 +117,10 @@ def get_rank_counts():
     # Count the occurrences of each top_level_rank value
     for item in hands_and_bids:
         top_level_rank = item['top_level_rank']
-        top_level_rank_counts[top_level_rank] = top_level_rank_counts.get(top_level_rank, 0) + 1
+        top_level_rank_counts[top_level_rank] = top_level_rank_counts.get(
+            top_level_rank,
+            0
+            ) + 1
     return top_level_rank_counts
 
 
