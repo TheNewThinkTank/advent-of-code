@@ -53,12 +53,34 @@ def update_current_loc(dir):
 dir = directions[0]
 current_loc = update_current_loc(dir)
 ic(current_loc)
+
+
+def resize_houses(houses, current_loc):
+    # Get the current shape of the houses array
+    current_shape = houses.shape
+
+    # Check if the current_loc id is within the current shape
+    if current_loc[0] < current_shape[0] and current_loc[1] < current_shape[1]:
+        print("Current location is within the current shape.")
+    else:
+        # Calculate the new shape that includes the current_loc id
+        new_shape = (max(current_loc[0]+1, current_shape[0]), max(current_loc[1]+1, current_shape[1]))
+
+        # Create a new array with the new shape and copy the values from the original array
+        new_houses = np.zeros(new_shape)
+        new_houses[:current_shape[0], :current_shape[1]] = houses
+
+        # Update the houses array with the resized array
+        houses = new_houses
+        print("Houses array resized to contain the current location.")
+
+    return houses
+
+
+houses = resize_houses(houses, current_loc)
+ic(houses)
+
 # houses = np.insert(houses, current_loc, 1)
-
-# TODO: check if new dims exceed shape:
-
-
 # houses.resize(new_shape)
-
 # ic(current_loc)
 # ic(houses)
