@@ -18,32 +18,25 @@ import hashlib
 from icecream import ic
 
 
-def starts_with_5_zeroes(secret_key: str, answer_candidate: str) -> bool:
-    full_bstr = str.encode(secret_key + answer_candidate)
-    md5_hash = hashlib.sha256(full_bstr).hexdigest()
-    return md5_hash[:5] == "00000"
-
-
 def get_lowest_positive_number(secret_key: str) -> int | None:
-    for answer_candidate in range(1, 1_000_000):
-        test = starts_with_5_zeroes(secret_key, str(answer_candidate))
-        if test:
-            return answer_candidate
+    for d in range(1, 10_000_000):
+        md5_hash = hashlib.md5(str.encode(secret_key + str(d))).hexdigest()
+        # part 1
+        # if md5_hash[:5] == "00000":
+        #     return d
+        # part 2
+        if md5_hash[:6] == "000000":
+            return d
 
 
-tests = [
-    {"input": "abcdef",
-     "output": 609_043
-     },
-    {"input": "pqrstuv",
-     "output": 1_048_970
-     },
-]
+# part 1
+# tests = [
+#     {"input": "abcdef", "output": 609_043},
+#     {"input": "pqrstuv", "output": 1_048_970},
+# ]
+# for test in tests:
+#     assert get_lowest_positive_number(test["input"]) == test["output"]
 
-for test in tests:
-    # assert get_lowest_positive_number(test["input"]) == test["output"]
-    ic(get_lowest_positive_number(test["input"]))
-    ic(test["output"])
-
-# secret_key = "iwrupvqb"
-# get_lowest_positive_number(secret_key)
+secret_key = "iwrupvqb"
+lowest_positive_number = get_lowest_positive_number(secret_key)
+ic(lowest_positive_number)
