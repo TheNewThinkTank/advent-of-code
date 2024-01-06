@@ -18,15 +18,32 @@ import hashlib
 from icecream import ic
 
 
-def starts_with_5_zeroes(secret_key, answer_candidate):
+def starts_with_5_zeroes(secret_key: str, answer_candidate: str) -> bool:
     full_bstr = str.encode(secret_key + answer_candidate)
     md5_hash = hashlib.sha256(full_bstr).hexdigest()
     return md5_hash[:5] == "00000"
 
 
-secret_key = "iwrupvqb"
-for answer_candidate in range(1, 1_000_000):
-    test = starts_with_5_zeroes(secret_key, str(answer_candidate))
-    if test:
-        ic(answer_candidate)
-        break
+def get_lowest_positive_number(secret_key: str) -> int | None:
+    for answer_candidate in range(1, 1_000_000):
+        test = starts_with_5_zeroes(secret_key, str(answer_candidate))
+        if test:
+            return answer_candidate
+
+
+tests = [
+    {"input": "abcdef",
+     "output": 609_043
+     },
+    {"input": "pqrstuv",
+     "output": 1_048_970
+     },
+]
+
+for test in tests:
+    # assert get_lowest_positive_number(test["input"]) == test["output"]
+    ic(get_lowest_positive_number(test["input"]))
+    ic(test["output"])
+
+# secret_key = "iwrupvqb"
+# get_lowest_positive_number(secret_key)
