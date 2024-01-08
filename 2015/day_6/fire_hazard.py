@@ -32,39 +32,41 @@ def get_new_value(action, value) -> int:
     action_map = {
         "turn on": 1,
         "turn off": 0,
-        "toggle": np.logical_not(value).astype(int)  # 0 if value else 1  # toggle(value),
+        "toggle": np.logical_not(value).astype(
+            int
+        ),  # 0 if value else 1  # toggle(value),
     }
     return action_map[action]
 
 
-grid = np.zeros((1_000, 1_000))
+def update_grid(action, start_coords, end_coords):
+    grid[
+        start_coords[0] : end_coords[0] + 1, start_coords[1] : end_coords[1] + 1
+    ] = get_new_value(
+        action,
+        grid[start_coords[0] : end_coords[0] + 1, start_coords[1] : end_coords[1] + 1],
+    )
 
-test = "turn on 0,0 through 999,999"
-# test = "toggle 0,0 through 999,0"
-# test = "turn off 499,499 through 500,500"
 
-action, start_coords, end_coords = get_action_and_coords(test)
-
-# ic(action)
-# ic(start_coords)
-# ic(end_coords)
-
-# sub_grid = [start_coords[0]:end_coords[0], start_coords[1]:end_coords[1]]
-# sub_grid = np.ndarray(start_coords, end_coords)
-
-# grid[start_coords] = get_new_value(action, grid[start_coords])
-grid[start_coords[0]:end_coords[0],
-     start_coords[1]:end_coords[1]] = get_new_value(action,
-                                                    grid[start_coords[0]:end_coords[0],
-                                                         start_coords[1]:end_coords[1]
-                                                         ]
-                                                    )
-
-# np.put(grid,
-#        [start_coords[0]:end_coords[0], start_coords[1]:end_coords[1]],
-#        [-44, -55]
-#        )
-
-# ic(grid[0:5, 0:5])
-# ic(grid[start_coords[0]:end_coords[0], start_coords[1]:end_coords[1]])
+# tests = [
+#     "turn on 0,0 through 999,999",
+#     "toggle 0,0 through 999,0",
+#     "turn off 499,499 through 500,500",
+# ]
+# test = tests[0]
+with open("input.txt", "r") as rf:
+    tests = rf.readlines()
+    tests = [test.strip("\n") for test in tests]
+# ic(tests)
+grid = np.zeros((1_000, 1_000))  # , dtype=np.bool_)
+for test in tests:
+    action, start_coords, end_coords = get_action_and_coords(test)
+    # ic(action)
+    # ic(start_coords)
+    # ic(end_coords)
+    update_grid(action, start_coords, end_coords)
 ic(grid)
+
+# lights_on = sum(grid)
+lights_on = int(np.sum(grid))
+ic(lights_on)
