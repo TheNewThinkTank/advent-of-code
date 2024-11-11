@@ -5,6 +5,11 @@
 # from pprint import pprint as pp
 # from tqdm import tqdm
 from icecream import ic
+import os
+import sys
+sys.path.insert(0, os.path.abspath(os.path.join(os.path.dirname(__file__), '../../')))
+
+from src.get_data import get_data  # type: ignore
 
 datafiles = [
     "input.txt",
@@ -13,13 +18,18 @@ datafiles = [
 
 datafile = datafiles[0]
 
-with open(datafile, "r") as rf:
-    lines = rf.readlines()
-lines = [line.removesuffix("\n") for line in lines]
+lines = get_data(datafile)
 
 # part 1
-time = [int(i) for i in lines[0].split(":")[1].split(" ") if i]
-distance = [int(i) for i in lines[1].split(":")[1].split(" ") if i]
+
+
+def parse_line_data(line):
+    return [int(i) for i in line.split(":")[1].split() if i]
+
+
+time = parse_line_data(lines[0])
+distance = parse_line_data(lines[1])
+
 
 # ic(time)
 # ic(distance)

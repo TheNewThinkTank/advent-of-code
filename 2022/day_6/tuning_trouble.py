@@ -1,3 +1,4 @@
+
 datafiles = ["input.txt", "sample.txt"]
 datafile = datafiles[0]
 

@@ -2,20 +2,24 @@
 
 from tqdm import tqdm
 from icecream import ic
+import os
+import sys
+sys.path.insert(0, os.path.abspath(os.path.join(os.path.dirname(__file__), '../../')))
+
+from src.get_data import get_data  # type: ignore
+from src.get_full_path import get_full_path  # type: ignore
 
 datafiles = [
     "input.txt",
     "input_sample.txt",
     ]
 
-datafile = datafiles[0]
-
-with open(datafile, "r") as rf:
-    lines = rf.readlines()
+datafile = get_full_path("2023", "day_9", datafiles[0])
+lines = get_data(datafile)
 
 
 def get_history(lines):
-    lines = [line.removesuffix("\n") for line in lines]
+
     new_lines = []
     for line in lines:
         line = [int(i) for i in line.split(' ')]
@@ -34,7 +38,9 @@ def make_sequences(line, sequences):
 
 
 def make_all_sequences():
+
     new_lines = get_history(lines)
+
     all_sequences = []
     for line in new_lines:
         sequences = [line]

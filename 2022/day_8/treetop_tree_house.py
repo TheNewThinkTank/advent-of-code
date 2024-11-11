@@ -1,13 +1,14 @@
 # from pprint import pprint as pp
 import numpy as np
+import os
+import sys
+sys.path.insert(0, os.path.abspath(os.path.join(os.path.dirname(__file__), '../../')))
+from src.get_data import get_data  # type: ignore
+from src.get_full_path import get_full_path  # type: ignore
 
 datafiles = ["input.txt", "sample.txt"]
-datafile = datafiles[0]
-
-with open(datafile, "r") as rf:
-    lines = rf.readlines()
-
-lines = [line.removesuffix("\n") for line in lines]
+datafile = get_full_path("2022", "day_8", datafiles[0])
+lines = get_data(datafile)
 
 
 def make_grid():

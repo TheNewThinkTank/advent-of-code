@@ -1,6 +1,10 @@
 
 # from pprint import pprint as pp
 from icecream import ic
+import os
+import sys
+sys.path.insert(0, os.path.abspath(os.path.join(os.path.dirname(__file__), '../../')))
+from src.get_data import get_data  # type: ignore
 
 datafiles = [
     "input.txt",
@@ -9,10 +13,7 @@ datafiles = [
 
 datafile = datafiles[0]
 
-with open(datafile, "r") as rf:
-    lines = rf.readlines()
-
-lines = [line.removesuffix("\n") for line in lines]
+lines = get_data(datafile)
 # pp(lines)
 
 
