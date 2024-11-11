@@ -1,11 +1,10 @@
-# from pprint import pprint as pp
 
+# from pprint import pprint as pp
 from tqdm import tqdm
 from icecream import ic
 import os
 import sys
 sys.path.insert(0, os.path.abspath(os.path.join(os.path.dirname(__file__), '../../')))
-
 from src.get_data import get_data  # type: ignore
 from src.get_full_path import get_full_path  # type: ignore
 
@@ -13,7 +12,6 @@ datafiles = [
     "input.txt",
     "input_sample.txt",
     ]
-
 datafile = get_full_path("2023", "day_9", datafiles[0])
 lines = get_data(datafile)
 

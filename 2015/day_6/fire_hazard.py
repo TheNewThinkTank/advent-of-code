@@ -12,21 +12,28 @@ would turn off (or leave off) the middle four lights
 
 import numpy as np
 import re
-
 from icecream import ic
+import os
+import sys
+sys.path.insert(0, os.path.abspath(os.path.join(os.path.dirname(__file__), '../../')))
+from src.get_data import get_data  # type: ignore
+from src.get_full_path import get_full_path  # type: ignore
 
 
 def get_action_and_coords(test):
+
     pattern = r"^(turn on|turn off|toggle)\s(\d*,\d*)\sthrough\s(\d*,\d*)$"
     regex = re.compile(pattern)
     m = re.search(regex, test)
     action, start_coords, end_coords = m.groups()
     start_coords = tuple(int(i) for i in start_coords.split(","))
     end_coords = tuple(int(i) for i in end_coords.split(","))
+
     return action, start_coords, end_coords
 
 
 def get_new_value(action, value) -> int:
+
     action_map = {
         "turn on": 1,
         "turn off": 0,
@@ -34,10 +41,12 @@ def get_new_value(action, value) -> int:
             int
         ),
     }
+
     return action_map[action]
 
 
-def update_grid(action, start_coords, end_coords):
+def update_grid(action, start_coords, end_coords) -> None:
+
     grid[
         start_coords[0] : end_coords[0] + 1, start_coords[1] : end_coords[1] + 1
     ] = get_new_value(
@@ -52,9 +61,10 @@ def update_grid(action, start_coords, end_coords):
 #     "turn off 499,499 through 500,500",
 # ]
 # test = tests[0]
-with open("input.txt", "r") as rf:
-    tests = rf.readlines()
-    tests = [test.strip("\n") for test in tests]
+
+datafile = get_full_path("2015", "day_6", "input.txt")
+tests = get_data(datafile)
+
 # ic(tests)
 grid = np.zeros((1_000, 1_000))  # , dtype=np.bool_)
 action_map = {

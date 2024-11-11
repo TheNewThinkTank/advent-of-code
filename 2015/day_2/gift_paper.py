@@ -1,14 +1,16 @@
 
 from functools import reduce
 from operator import mul
-
 from icecream import ic
-
+import os
+import sys
+sys.path.insert(0, os.path.abspath(os.path.join(os.path.dirname(__file__), '../../')))
+from src.get_full_path import get_full_path  # type: ignore
 
 datafiles = [
     "input.txt",
     ]
-datafile = datafiles[0]
+datafile = get_full_path("2015", "day_2", datafiles[0])
 
 
 def get_data():
@@ -29,8 +31,7 @@ def get_surface_area(present):
     l = present['l']
     w = present['w']
     h = present['h']
-    surface_area = 2 * l * w + 2 * w * h + 2 * h * l
-    return surface_area
+    return 2 * l * w + 2 * w * h + 2 * h * l
 
 
 def get_2_smallest_dims(present):

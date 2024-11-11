@@ -1,27 +1,25 @@
+
 import itertools
 # from pprint import pprint as pp
 from icecream import ic
 import os
 import sys
 sys.path.insert(0, os.path.abspath(os.path.join(os.path.dirname(__file__), '../../')))
-
 from src.get_data import get_data  # type: ignore
+from src.get_full_path import get_full_path  # type: ignore
 
 datafiles = [
     "input.txt",
     "input_sample_1.txt",
     "input_sample_2.txt",
     ]
-
-datafile = datafiles[0]
+datafile = get_full_path("2023", "day_8", datafiles[0])
 
 
 def get_instructions_and_nodes():
 
     lines = get_data(datafile)
-
     lines = [line for line in lines if line]
-
     left_right_instructions = lines[0]
     elements = lines[1:]
     nodes_lr = {}

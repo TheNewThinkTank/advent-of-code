@@ -1,16 +1,25 @@
+
 from dataclasses import dataclass
 from itertools import filterfalse, islice
 import math
-
 # from pprint import pprint as pp
 from tqdm import tqdm
+import os
+import sys
+sys.path.insert(0, os.path.abspath(os.path.join(os.path.dirname(__file__), '../../')))
+from src.get_full_path import get_full_path  # type: ignore
 
 
 def get_raw_monkeys():
+
     raw_monkeys = []
-    data_files = ["sample.txt", "input.txt"]
-    data_file = data_files[1]
-    with open(data_file, "r") as rf:
+    datafiles = [
+        "sample.txt",
+        "input.txt",
+        ]
+    datafile = get_full_path("2022", "day_11", datafiles[1])
+
+    with open(datafile, "r") as rf:
         while True:
             filt_rf = filterfalse(lambda line: line.startswith("\n"), rf)
             monkey = list(islice(filt_rf, 6))

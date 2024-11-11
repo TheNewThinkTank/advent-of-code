@@ -1,5 +1,9 @@
 
 import re
+import os
+import sys
+sys.path.insert(0, os.path.abspath(os.path.join(os.path.dirname(__file__), '../../')))
+from src.get_full_path import get_full_path  # type: ignore
 
 
 def read_file_in_pairs(filename):
@@ -26,9 +30,8 @@ def read_file_in_pairs(filename):
 
 
 if __name__ == "__main__":
-    filename = 'sample.txt'
-    read_file_in_pairs(filename)
-
+    datafile = get_full_path("2022", "day_13", 'sample.txt')
+    read_file_in_pairs(datafile)
 
 '''
 == Pair 1 ==

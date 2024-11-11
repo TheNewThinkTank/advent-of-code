@@ -9,7 +9,6 @@ from src.get_full_path import get_full_path  # type: ignore
 np.set_printoptions(threshold=sys.maxsize)
 
 datafiles = ["input.txt", "sample.txt"]
-
 datafile = get_full_path("2022", "day_9", datafiles[1])
 lines = get_data(datafile)
 

@@ -12,12 +12,15 @@ including twice to the house at his starting/ending location.
 """
 
 from icecream import ic
-
+import os
+import sys
+sys.path.insert(0, os.path.abspath(os.path.join(os.path.dirname(__file__), '../../')))
+from src.get_full_path import get_full_path  # type: ignore
 
 datafiles = [
     "input.txt",
     ]
-datafile = datafiles[0]
+datafile = get_full_path("2015", "day_3", datafiles[0])
 
 
 def get_data():

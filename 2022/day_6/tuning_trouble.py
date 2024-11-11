@@ -1,6 +1,11 @@
 
+import os
+import sys
+sys.path.insert(0, os.path.abspath(os.path.join(os.path.dirname(__file__), '../../')))
+from src.get_full_path import get_full_path  # type: ignore
+
 datafiles = ["input.txt", "sample.txt"]
-datafile = datafiles[0]
+datafile = get_full_path("2022", "day_6", datafiles[0])
 
 with open(datafile, "r") as rf:
     lines = rf.readlines()

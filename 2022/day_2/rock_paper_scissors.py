@@ -1,8 +1,41 @@
-opponent_moves = {"A": "rock", "B": "paper", "C": "scissors"}
-my_moves = {"X": "rock", "Y": "paper", "Z": "scissors"}
 
-shape_score = {"rock": 1, "paper": 2, "scissors": 3}
-outcome_score = {"lost": 0, "draw": 3, "win": 6}
+import os
+import sys
+sys.path.insert(0, os.path.abspath(os.path.join(os.path.dirname(__file__), '../../')))
+from src.get_full_path import get_full_path  # type: ignore
+
+datafiles = [
+    "strategy_guide.txt",
+    "sample.txt"
+    ]
+datafile = get_full_path("2022", "day_2", datafiles[0])
+
+with open(datafile, "r") as rf:
+    lines = rf.readlines()
+
+opponent_moves = {
+    "A": "rock",
+    "B": "paper",
+    "C": "scissors"
+    }
+
+my_moves = {
+    "X": "rock",
+    "Y": "paper",
+    "Z": "scissors"
+    }
+
+shape_score = {
+    "rock": 1,
+    "paper": 2,
+    "scissors": 3
+    }
+
+outcome_score = {
+    "lost": 0,
+    "draw": 3,
+    "win": 6
+    }
 
 rules = {
     "AZ": "lost",
@@ -15,12 +48,6 @@ rules = {
     "AY": "win",
     "BZ": "win",
 }
-
-datafiles = ["strategy_guide.txt", "sample.txt"]
-datafile = datafiles[0]
-
-with open(datafile, "r") as rf:
-    lines = rf.readlines()
 
 
 def get_game_rounds():
@@ -48,8 +75,17 @@ def part_1():
 # print(part_1())
 
 # part 2
-my_outcomes = {"X": "lost", "Y": "draw", "Z": "win"}
-my_moves = {"K": "rock", "L": "paper", "M": "scissors"}
+my_outcomes = {
+    "X": "lost",
+    "Y": "draw",
+    "Z": "win"
+    }
+
+my_moves = {
+    "K": "rock",
+    "L": "paper",
+    "M": "scissors"
+    }
 
 rules = {
     "AM": "lost",

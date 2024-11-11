@@ -1,8 +1,18 @@
-datafiles = ["input.txt", "sample.txt", "sample_2.txt", "sample_3.txt"]
-datafile = datafiles[2]
-with open(datafile, "r") as rf:
-    lines = rf.readlines()
-lines = [line.removesuffix("\n") for line in lines]
+
+import os
+import sys
+sys.path.insert(0, os.path.abspath(os.path.join(os.path.dirname(__file__), '../../')))
+from src.get_data import get_data  # type: ignore
+from src.get_full_path import get_full_path  # type: ignore
+
+datafiles = [
+    "input.txt",
+    "sample.txt",
+    "sample_2.txt",
+    "sample_3.txt",
+    ]
+datafile = get_full_path("2022", "day_10", datafiles[2])
+lines = get_data(datafile)
 
 x = 1
 instruction_queue = []
