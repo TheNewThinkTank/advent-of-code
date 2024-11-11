@@ -1,5 +1,4 @@
 
-import sys
 import numpy as np
 import os
 import sys
@@ -71,7 +70,16 @@ def move_h_and_t(grid, direction, num):
 
 
 # Example usage: R4, U4, L3, D1, R4, D1, L5, R2
-directions = [("R", 4), ("U", 4), ("L", 3), ("D", 1), ("R", 4), ("D", 1), ("L", 5), ("R", 2)]
+directions = [
+    ("R", 4),
+    ("U", 4),
+    ("L", 3),
+    ("D", 1),
+    ("R", 4),
+    ("D", 1),
+    ("L", 5),
+    ("R", 2),
+    ]
 for direction, num in directions:
     grid = move_h_and_t(grid, direction, num)
 
