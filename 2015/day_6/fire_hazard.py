@@ -72,7 +72,10 @@ for test in tests:
     # update_grid(action, start_coords, end_coords)
 
     # part 2
-    grid[start_coords[0] : end_coords[0] + 1, start_coords[1] : end_coords[1] + 1] += action_map[action]
+    grid[
+        start_coords[0] : end_coords[0] + 1,
+        start_coords[1] : end_coords[1] + 1
+        ] += action_map[action]
     grid[grid < 0] = 0
 
 ic(grid)

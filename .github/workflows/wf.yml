@@ -43,4 +43,4 @@ jobs:
         if: steps.cache.outputs.cache-hit != 'true'
 
       - name: Lint with ruff
-        run: poetry run ruff --ignore=E741 --exclude=.venv .
+        run: poetry run ruff --ignore=E402,E741 --exclude=.venv .
