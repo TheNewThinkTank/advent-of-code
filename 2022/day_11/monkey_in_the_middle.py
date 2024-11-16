@@ -52,11 +52,12 @@ for monkey in raw_monkeys:
     clean_monkeys.append(clean_monkey)
 
 
-def is_prime(n: int) -> bool:
-    for k in range(2, int(math.sqrt(n)) + 1):
-        if n % k == 0:
-            return False
-    return True
+# TODO; use algo-lib
+# def is_prime(n: int) -> bool:
+#     for k in range(2, int(math.sqrt(n)) + 1):
+#         if n % k == 0:
+#             return False
+#     return True
 
 
 tests = []

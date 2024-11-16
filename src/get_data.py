@@ -13,3 +13,9 @@ def get_data(datafile: str) -> list[str]:
         lines = rf.readlines()
 
     return [line.removesuffix("\n") for line in lines]
+
+
+def get_all_data(datafile: str):
+    with open(datafile, "r") as f:
+        data = f.read()
+    return data

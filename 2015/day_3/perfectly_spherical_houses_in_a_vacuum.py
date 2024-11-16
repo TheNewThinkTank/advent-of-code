@@ -15,21 +15,14 @@ from icecream import ic
 import os
 import sys
 sys.path.insert(0, os.path.abspath(os.path.join(os.path.dirname(__file__), '../../')))
+from src.get_data import get_all_data  # type: ignore
 from src.get_full_path import get_full_path  # type: ignore
 
 datafiles = [
     "input.txt",
     ]
 datafile = get_full_path("2015", "day_3", datafiles[0])
-
-
-def get_data():
-    with open(datafile, "r") as f:
-        data = f.read()
-    return data
-
-
-directions = get_data()  # "^>v<"
+directions = get_all_data(datafile)  # "^>v<"
 # ic(directions)
 
 
