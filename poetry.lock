@@ -65,14 +65,14 @@ pyflakes = ">=3.4.0,<3.5.0"
 
 [[package]]
 name = "icecream"
-version = "2.1.5"
+version = "2.1.7"
 description = "Never use print() to debug again; inspect variables, expressions, and program execution with a single, simple function call."
 optional = false
 python-versions = "*"
 groups = ["main"]
 files = [
-    {file = "icecream-2.1.5-py3-none-any.whl", hash = "sha256:c020917c5cb180a528dbba170250ccd8b74ebc75f2a7a8e839819bf959b9f80c"},
-    {file = "icecream-2.1.5.tar.gz", hash = "sha256:14d21e3383326a69a8c1a3bcf11f83283459f0d269ece5af83fce2c0d663efec"},
+    {file = "icecream-2.1.7-py3-none-any.whl", hash = "sha256:b52cdd40cb5080279c4534fcd77aa510b1e7397a687e9d4daf2f8d2028bd738c"},
+    {file = "icecream-2.1.7.tar.gz", hash = "sha256:936df053e65ff3c7a219fa79311b32bdae19aad83dd2e23d153ab8864b78acd9"},
 ]
 
 [package.dependencies]
@@ -308,4 +308,4 @@ six = ">=1.13.0"
 [metadata]
 lock-version = "2.1"
 python-versions = "^3.11"
-content-hash = "e9276b81b9206c5f50720f4acad8ad4273f1a75f9b3d92b0cd9b950f3f5b34db"
+content-hash = "f6ad066f528dfdc94f932fda269a7664258fa1d34512bfde7af5b295030af1c9"
