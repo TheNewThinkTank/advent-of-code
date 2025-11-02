@@ -9,7 +9,7 @@ readme = "README.md"
 [tool.poetry.dependencies]
 python = "^3.11"
 flake8 = "^7.3.0"
-ruff = "^0.13.3"
+ruff = "^0.14.3"
 icecream = "^2.1.8"
 tqdm = "^4.67.1"
 more-itertools = "^10.8.0"
