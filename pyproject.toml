@@ -12,7 +12,7 @@ flake8 = "^7.3.0"
 ruff = "^0.14.8"
 icecream = "^2.1.10"
 tqdm = "^4.67.1"
-more-itertools = "^10.8.0"
+more-itertools = "^11.0.2"
 treelib = "^1.8.0"
 numpy = "^2.3.5"
 
